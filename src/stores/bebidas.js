@@ -18,6 +18,7 @@ export const useBebidasStore = defineStore('bebidas', () => {
         categoria: '',
     });
     const recetas = ref([]);
+    const receta = ref({});
 
     onMounted( async () => {
         const {data: drinks} = await APIService.obtenerCategorias();
@@ -30,6 +31,7 @@ export const useBebidasStore = defineStore('bebidas', () => {
 
     async function seleccionarBebida(id){
         const {data: {drinks}} = await APIService.buscarReceta(id);
+        receta.value = drinks[0];
         modal$.handleClickModal();
     }
 
@@ -37,6 +39,7 @@ export const useBebidasStore = defineStore('bebidas', () => {
         categorias,
         busqueda,
         recetas,
+        receta,
         obtenerRecetas,
         seleccionarBebida
     }
