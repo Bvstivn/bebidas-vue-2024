@@ -1,10 +1,11 @@
 //Vue
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 //Pinia
 import { defineStore } from "pinia";
 //Stores
 import { useBebidasStore } from "./bebidas";
 import { useModalStore } from "./modal";
+import { useNotificacionStore } from "./notificaciones";
 
 export const useFavoritosStore = defineStore("favoritos", () => {
   //Data
@@ -13,6 +14,7 @@ export const useFavoritosStore = defineStore("favoritos", () => {
   //Stores
   const bebidas$ = useBebidasStore();
   const modal$ = useModalStore();
+  const notificacion$ = useNotificacionStore();
 
   //Watch
   watch(
@@ -45,6 +47,12 @@ export const useFavoritosStore = defineStore("favoritos", () => {
     favoritos.value = favoritos.value.filter(favorito => favorito.idDrink !== bebidas$.receta.idDrink);
   }
 
+  function agregarFavorito(){
+    favoritos.value.push(bebidas$.receta);
+    notificacion$.mostrar = true;
+    notificacion$.texto = 'Se agregó a favoritos';
+  }
+
   function handleClickFavorito() {
     if (existeFavorito(bebidas$.receta.idDrink)) {
       eliminarFavorito();
@@ -55,9 +63,13 @@ export const useFavoritosStore = defineStore("favoritos", () => {
     }
   }
 
+  const noFavoritos = computed(() => favoritos.value.length === 0);
+
   return {
     favoritos,
+    noFavoritos,
     handleClickFavorito,
     existeFavorito,
+    agregarFavorito
   };
 });

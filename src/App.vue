@@ -2,6 +2,7 @@
 //Components
 import Header from './components/Header.vue';
 import Modal from './components/Modal.vue';
+import Notificacion from './components/Notificacion.vue';
 //Vue-router
 import { RouterView } from "vue-router";
 
@@ -15,4 +16,6 @@ import { RouterView } from "vue-router";
   </main>
 
   <Modal/>
+
+  <Notificacion />
 </template>
