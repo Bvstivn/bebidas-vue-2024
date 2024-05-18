@@ -43,14 +43,24 @@ export const useFavoritosStore = defineStore("favoritos", () => {
     return favoritosLocalStorage.some((favorito) => favorito.idDrink === id);
   }
 
-  function eliminarFavorito(){
-    favoritos.value = favoritos.value.filter(favorito => favorito.idDrink !== bebidas$.receta.idDrink);
+  function eliminarFavorito() {
+    favoritos.value = favoritos.value.filter(
+      (favorito) => favorito.idDrink !== bebidas$.receta.idDrink
+    );
+    notificacion$.mostrar = true;
+    notificacion$.texto = "Eliminado de favoritos";
+    setTimeout(() => {
+      notificacion$.$reset();
+    }, 3000);
   }
 
-  function agregarFavorito(){
+  function agregarFavorito() {
     favoritos.value.push(bebidas$.receta);
     notificacion$.mostrar = true;
-    notificacion$.texto = 'Se agregó a favoritos';
+    notificacion$.texto = "Se agregó a favoritos";
+    setTimeout(() => {
+      notificacion$.$reset();
+    }, 3000);
   }
 
   function handleClickFavorito() {
@@ -70,6 +80,6 @@ export const useFavoritosStore = defineStore("favoritos", () => {
     noFavoritos,
     handleClickFavorito,
     existeFavorito,
-    agregarFavorito
+    agregarFavorito,
   };
 });
